@@ -1,0 +1,41 @@
+#lang sicp
+
+(define (make-point x y) (cons x y))
+(define (x-point p) (car p))
+(define (y-point p) (cdr p))
+
+(define (print-point p)
+  (newline)
+  (display "(")
+  (display (x-point p))
+  (display ", ")
+  (display (y-point p))
+  (display ")"))
+
+(define (make-segment p1 p2) (cons p1 p2))
+(define (start-segment s) (car s))
+(define (end-segment s) (cdr s))
+
+(define (midpoint-segment s)
+  (define (average a b) (/ (+ a b) 2))
+  (make-point (average (x-point (start-segment s))
+                       (x-point (end-segment s)))
+              (average (y-point (start-segment s))
+                       (y-point (end-segment s)))))
+
+(define (make-rect p1 p2) (cons p1 p2))
+(define (start-rect rect) (car rect))
+(define (end-rect rect) (cdr rect))
+(define (horz-rect rect)
+  (let ((a (x-point (start-rect rect)))
+        (b (x-point (end-rect rect))))
+    (abs (- b a))))
+(define (vert-rect rect)
+  (let ((a (y-point (start-rect rect)))
+        (b (y-point (end-rect rect))))
+    (abs (- b a))))
+
+(define (perimeter-rect rect)
+  (* 2 (+ (horz-rect rect) (vert-rect rect))))
+(define (area-rect rect)
+  (* (horz-rect rect) (vert-rect rect)))
